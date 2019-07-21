@@ -2,6 +2,8 @@ package com.redgame.util;
 
 import java.awt.Point;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -223,12 +225,19 @@ public class GamePanelUtil {
 	public static String CHESS = "music/chess.wav";
 	public static String WARN = "music/warn.wav";
 
+	private static Map<String, File> musicsMap = new HashMap<String, File>();
+
+	static {
+        musicsMap.put(CLICK, new File(CLICK));
+        musicsMap.put(CHESS, new File(CHESS));
+        musicsMap.put(WARN, new File(WARN));
+    }
+
 	public static void PlayMusic(String music) {
 		try {
-			File wavFile = new File(music);// 可以使用文件
 			// InputStream in = new FileInputStream(wavFile);//也可以使用流
 			// URL url = wavFile.toURI().toURL();//还可以使用URL
-			AudioInputStream ais = AudioSystem.getAudioInputStream(wavFile);// 这里使用上面的三种，那种都可以
+			AudioInputStream ais = AudioSystem.getAudioInputStream(musicsMap.get(music));// 这里使用上面的三种，那种都可以
 			Clip clip = AudioSystem.getClip();
 			clip.open(ais);
 			clip.start();
